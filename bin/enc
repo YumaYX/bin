@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+encfile=/work/data/encrypted
+
+if [ -e $encfile ]; then
+  echo "File Exist." >&2
+  exit 1
+fi
+
+read -sp "Password: " pass
+echo
+openssl aes-256-cbc -e -pbkdf2 -iter 100 -in <(echo $pass) -out $encfile
+pass=''

@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'ipaddr'
+
+prefix = ARGV[0]
+if prefix.nil?
+  warn "Usage:\n  #{__FILE__} [prefix(0-32)]"
+  exit 1
+end
+
+ip = IPAddr.new('255.255.255.255/32')
+puts ip.mask(prefix.to_i)

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+encfile=/work/data/encrypted
+openssl aes-256-cbc -d -pbkdf2 -iter 100 -in $encfile
