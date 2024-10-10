@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+target='/work'
+if [ ! -d ${target} ]; then
+  echo "${0}: ${target}: No such directory" >&2
+  exit 1
+fi
+
+bkup='work.tar.gz'
+rm -f "${target}/${bkup}"
+
+tmp="/tmp/${bkup}"
+tar zcvf "${tmp}" ${target}/*
+cp -v ${tmp} ${target}

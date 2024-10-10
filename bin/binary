@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+256.times { |n| puts "#{n}\t" + ('%08b' % n) }
+
