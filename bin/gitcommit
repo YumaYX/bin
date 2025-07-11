@@ -27,8 +27,11 @@ $diff
 # Clean up the message: take only the first line and trim spaces
 commit_message=$(echo "${commit_message}" | head -n 1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
+echo ${commit_message}
+
+sleep 5
+
 # Commit with the generated message
 git commit -m "${commit_message}"
 
-echo ${commit_message}
 
