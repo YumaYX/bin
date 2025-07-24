@@ -7,10 +7,7 @@ if [ $# -ne 1 ]; then
 fi
 
 target="${1}"
-if [ ! -e "${target}" ]; then
-  echo "${0}: ${target}: No such file or directory" 1>&2
-  exit 2
-fi
+ls "${target}" > /dev/null || exit 2
 
 backupdir="/tmp/bk"
 mkdir -p "${backupdir}"

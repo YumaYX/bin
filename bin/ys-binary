@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+(0..255).each do |n|
+  number_str = n.to_s
+  binary_str = '%08b' % n
+  output_line = "#{number_str}\t#{binary_str}"
+  puts output_line
+end

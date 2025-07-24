@@ -3,11 +3,13 @@
 target='/work'
 ls "${target}" > /dev/null || exit 1
 
-backup_full_path="${target}/works.tar.gz"
+backup_full_path="${target}/work.tar.gz"
 backup_file=$(basename "${backup_full_path}")
 
 tmp="/tmp/${backup_file}"
 
 tar zcvf "${tmp}" ${target}/* \
   && rm -f "${backup_full_path}" \
-  || cp -v ${tmp} ${target}
+  || exit 1
+
+mv -v ${tmp} ${target}

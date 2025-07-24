@@ -1,37 +1,36 @@
 #!/bin/bash
 
-ollama_model="gemma3"
-# => ollama pull gemma3
+OLLAMA_MODEL="${OLLAMA_MODEL:-gemma3}"
 
-# Stage all changes
+git status
+sleep 3
 git add -A
 
-# Get the staged diff
+
 diff=$(git diff --cached)
 
-# Exit if no changes to commit
 if [ -z "$diff" ]; then
   echo "No changes to commit."
   exit 0
 fi
 
-# Generate commit message using Ollama
-commit_message=$(ollama run "${ollama_model}" "
+
+commit_message=$(ollama run "${OLLAMA_MODEL}" "
 - Output ONLY the commit message.
 - The message MUST be in English, one line, briefly, and describe the change clearly.
 - Do NOT include explanations, greetings, or any extra text.
 ---
-$diff
+${diff}
 ")
 
-# Clean up the message: take only the first line and trim spaces
 commit_message=$(echo "${commit_message}" | head -n 1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
-echo ${commit_message}
+if [ -z "$commit_message" ]; then
+  echo "Failed to generate commit message from Ollama. Aborting commit." >&2
+  exit 1
+fi
 
-sleep 5
 
-# Commit with the generated message
+echo "$commit_message"
+
 git commit -m "${commit_message}"
-
-

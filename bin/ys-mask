@@ -9,4 +9,3 @@ original_ip = IPAddr.new('255.255.255.255/32')
   masked_ip = original_ip.mask(mask_length)
   puts "#{mask_length}\t#{masked_ip}"
 end
-
