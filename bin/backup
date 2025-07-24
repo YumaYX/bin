@@ -3,8 +3,8 @@
 target='/work'
 ls "${target}" > /dev/null || exit 1
 
-backup_file='works.tar.gz'
-backup_full_path="${target}/${backup_file}"
+backup_full_path="${target}/works.tar.gz"
+backup_file=$(basename "${backup_full_path}")
 
 tmp="/tmp/${backup_file}"
 
