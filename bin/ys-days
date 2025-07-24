@@ -6,7 +6,7 @@ require 'date'
 wod = %w[日 月 火 水 木 金 土]
 today = Date.today
 (0..30).each do |offset|
-  target_date = today + offset得
+  target_date = today + offset
   date_str = target_date.strftime('%F')
   wday_index = target_date.strftime('%w').to_i
   wday_str = wod[wday_index]
