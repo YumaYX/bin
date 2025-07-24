@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
 target='/work'
-if [ ! -d ${target} ]; then
-  echo "${0}: ${target}: No such directory" >&2
-  exit 1
-fi
+ls "${target}" > /dev/null || exit 1
 
-bkup='work.tar.gz'
-rm -f "${target}/${bkup}"
+backup_file='works.tar.gz'
+backup_full_path="${target}/${backup_file}"
 
-tmp="/tmp/${bkup}"
-tar zcvf "${tmp}" ${target}/*
-cp -v ${tmp} ${target}
+tmp="/tmp/${backup_file}"
+
+tar zcvf "${tmp}" ${target}/* \
+  && rm -f "${backup_full_path}" \
+  || cp -v ${tmp} ${target}
