@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+extract_code_blocks() {
+  awk 'BEGIN{in_block=0} /^```/ {in_block = !in_block; next} in_block'
+}
+
+if [ -p /dev/stdin ]; then
+  extract_code_blocks
+else
+  extract_code_blocks < "${@}"
+fi

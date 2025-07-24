@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ $# -ne 1 ]; then
+  echo "usage:" 1>&2
+  echo "${0} <file name>" 1>&2
+  exit 1
+fi
+file_name="${1}"
+
+
+OLLAMA_MODEL="${OLLAMA_MODEL:-gemma3}"
+
+ollama run "$OLLAMA_MODEL" \
+"Update, fix, organize, and refactor the following text or programs: $(cat ${file_name})"
+
