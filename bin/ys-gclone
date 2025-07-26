@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+reponame="${1}"
+if [ -z "${reponame}" ];
+then
+  echo "usage:\n\t${0} <github repo name>"
+  exit 1
+fi
+
+git clone git@github.com:YumaYX/${reponame}.git
+

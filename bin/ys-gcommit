@@ -1,0 +1,36 @@
+#!/bin/bash
+
+OLLAMA_MODEL="${OLLAMA_MODEL:-gemma3}"
+
+git status
+sleep 3
+git add -A
+
+
+diff=$(git diff --cached)
+
+if [ -z "$diff" ]; then
+  echo "No changes to commit."
+  exit 0
+fi
+
+
+commit_message=$(ollama run "${OLLAMA_MODEL}" "
+- Output ONLY the commit message.
+- The message MUST be in English, one line, briefly, and describe the change clearly.
+- Do NOT include explanations, greetings, or any extra text.
+---
+${diff}
+")
+
+commit_message=$(echo "${commit_message}" | head -n 1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+if [ -z "$commit_message" ]; then
+  echo "Failed to generate commit message from Ollama. Aborting commit." >&2
+  exit 1
+fi
+
+
+echo "$commit_message"
+
+git commit -m "${commit_message}"
