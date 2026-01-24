@@ -2,7 +2,5 @@
 
 target='/work'
 
-ls "${target}" > /dev/null || exit 1
-
-tar jcf /samba/share/work.xz "${target}"
+ls "${target}" > /dev/null && tar jcf /samba/share/work.xz "${target}"
 
