@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 
 target='/work'
+
 ls "${target}" > /dev/null || exit 1
 
-backup_full_path="${target}/work.tar.gz"
-backup_file=$(basename "${backup_full_path}")
+tar jcf /samba/share/work.xz "${target}"
 
-tmp="/tmp/${backup_file}"
-
-tar zcvf "${tmp}" ${target}/* \
-  && rm -f "${backup_full_path}" \
-  || exit 1
-
-mv -v ${tmp} ${target}
