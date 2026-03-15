@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ $# -ne 1 ]; then
+  echo "usage:" 1>&2
+  echo "${0} <repo name (without .git)>" 1>&2
+  exit 1
+fi
+
+repodir='/work/git'
+target="${1%.git}"
+
+cmd="git clone $(whoami)@localhost:${repodir}/${target}.git"
+echo "${cmd}"
+${cmd}
+
