@@ -10,7 +10,6 @@ repodir='/work/git'
 target="${1%.git}"
 
 repository="${repodir}/${target}.git"
-echo "${repository}"
-mkdir -p "${repository}"
-cd "${repository}" && git init --bare
+mkdir -pv       "${repository}"
+git init --bare "${repository}"
 
