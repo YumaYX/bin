@@ -4,8 +4,6 @@ OLLAMA_MODEL="${OLLAMA_MODEL:-gemma4}"
 
 git status
 sleep 3
-git add -A
-
 
 diff=$(git diff --cached)
 
