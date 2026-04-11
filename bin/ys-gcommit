@@ -15,7 +15,7 @@ if [ -z "$diff" ]; then
 fi
 
 
-commit_message=$(ollama run "${OLLAMA_MODEL}" "
+commit_message=$(ollama run "${OLLAMA_MODEL}" --think=false "
 - Output ONLY the commit message.
 - The message MUST be in English, one line, briefly, and describe the change clearly.
 - Do NOT include explanations, greetings, or any extra text.
