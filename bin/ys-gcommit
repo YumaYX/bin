@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OLLAMA_MODEL="${OLLAMA_MODEL:-gemma3}"
+OLLAMA_MODEL="${OLLAMA_MODEL:-gemma4}"
 
 git status
 sleep 3
@@ -21,7 +21,7 @@ commit_message=$(ollama run "${OLLAMA_MODEL}" "
 - Do NOT include explanations, greetings, or any extra text.
 ---
 ${diff}
-")
+") || echo 'ollama serve'
 
 commit_message=$(echo "${commit_message}" | head -n 1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
