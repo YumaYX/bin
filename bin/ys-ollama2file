@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'ys1'
+
+def body(block)
+  block.to_s.chomp.sub(/\A.*?```[^\n]*\n/m, '').sub(/```.*\z/m, '')
+end
+
+def file_ref(file_path)
+  return '' if file_path.nil?
+  return '' unless File.exist?(file_path)
+
+  <<~REFPROMPT
+    ---
+    based on (#{file_path}):
+    ```
+    #{File.read(file_path)}
+    ```
+  REFPROMPT
+end
+
+def expand_args(args)
+  files = args.flat_map do |arg|
+    matched = Dir.glob(arg)
+    matched.empty? ? [arg] : matched
+  end.uniq.select { |f| File.file?(f) }
+
+  files.map do |file|
+    file_ref file
+  end.join("\n")
+end
+
+def build_prompt(prompt)
+  <<~MYPROMPT
+    Main Prompt: #{prompt}
+    ---
+    - Respond ONLY with a code block.
+    - Do not include any explanation or text outside the code block.
+    - In English.
+  MYPROMPT
+end
+
+def get_prompt(path = 'prompt.md')
+  unless File.exist?(path)
+    File.write(path, '')
+    puts "output: #{path}."
+    puts "add your prompt to #{path}."
+    puts "usage: #{__FILE__} [reference files]"
+    exit 1
+  end
+  prompt = File.read(path)
+  build_prompt(prompt)
+end
+
+if __FILE__ == $PROGRAM_NAME
+  # prompt
+  prompt = get_prompt
+  prompt += expand_args(ARGV)
+  puts prompt + "\n"
+
+  # ollama
+  YS1::Ollama.num_ctx = 8192
+  YS1::Ollama.model = 'gemma4'
+  ollama_response = YS1::Ollama.stream(prompt)
+  result = body(ollama_response)
+
+  # file output
+  output = 'output.txt'
+  File.write(output, result)
+  puts "\noutput: #{output}."
+end
+
