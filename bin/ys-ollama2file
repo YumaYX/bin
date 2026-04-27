@@ -21,14 +21,8 @@ def file_ref(file_path)
 end
 
 def expand_args(args)
-  files = args.flat_map do |arg|
-    matched = Dir.glob(arg)
-    matched.empty? ? [arg] : matched
-  end.uniq.select { |f| File.file?(f) }
-
-  files.map do |file|
-    file_ref file
-  end.join("\n")
+  files = YS1::Path.file_list(args)
+  files.map { |file| file_ref(file) }.join("\n")
 end
 
 def build_prompt(prompt)
